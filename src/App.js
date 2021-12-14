@@ -1,62 +1,34 @@
-import React, { useState, useEffect } from 'react'
-import Loading from './Loading'
-import Tours from './Tours'
+import './App.css';
+import Topbar from './components/header/Topbar';
+import {BrowserRouter, Routes, Route} from 'react-router-dom'
+import Home from './pages/Home';
+import Profkom from './pages/Profkom';
+import Documents from './pages/Documents';
+import TrustBox from './pages/TrustBox' 
+import Contacts from './pages/Contacts'
+import Navbar from './components/header/Navbar';
+import Chummery from './pages/Сhummery';
+import Footer from './components/header/Footer'
 
-const url = 'https://course-api.com/react-tours-project'
+
+
 function App() {
-  const [loading, setLoading] = useState(true);
-  const [tours, setTours] = useState([]);
-
-
-  const removeTour = (id) => {
-    const newTours = tours.filter((tour) => tour.id != id);
-    setTours(newTours)
-  }
-
-
-const fetchTours = async () => {
-  setLoading(true)
-
-  try {
-    const response = await fetch(url);
-    const tours = await response.json();
-    setLoading(false)
-    setTours(tours)
-  } catch (error) {
-    setLoading(false);
-    console.log(error);
-  }
-
-}
-
-useEffect(() => {
-  fetchTours();
-},[] );
-
-  if(loading){
-    return <main>
-      <Loading/>
-    </main>
-  }
-  if (tours.length === 0) {
-    return(
-      <main>
-        <div className="title"> 
-          <h2>No tours left</h2>
-          <button className="btn" onClick={fetchTours}>
-            REFRESH
-          </button>
-        </div>
-      </main>
-    )
-  }
   return (
-    <main>
-      <Tours tours={tours} removeTour={removeTour}/>
-    </main>
-  )
-
-
+      <BrowserRouter>
+      <Topbar/>
+        <Navbar/>
+          <Routes>
+            <Route exact path="/" element={<Home/>}/>
+            <Route path="/profkom" element={<Profkom/>}/>
+            <Route path="/documents" element={<Documents/>}/>
+            <Route path="/chummery" element={<Chummery/>}/>
+            <Route path="/contacts" element={<Contacts/>}/>
+            <Route path="/trustBox" element={<TrustBox/>}/>
+          </Routes>
+        <Footer/>
+      </BrowserRouter>
+     
+  );
 }
 
-export default App
+export default App;
